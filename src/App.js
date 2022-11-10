@@ -1,24 +1,22 @@
-import logo from './logo.svg';
 import './App.css';
-
+import {useCallback, useState, useEffect} from "react";
+import Loading from "./components/Loading";
+import axios from "axios";
 function App() {
+  const [todos, setTodos] = useState(null);
+
+  useEffect(async() => {
+  const todoData = await axios.get('https://jsonplaceholder.typicode.com/todos');
+  console.log(todoData);
+  setTodos(todoData.data);
+  }, []);
+
+  console.log('todos', todos)
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      {/*{todos ? <div>todos</div> : <Loading />}*/}
+      {todos? {todos.map((list) => <div key={list.id}>{list.title}</div>)} : <Loading />}
+    </>
   );
 }
 
