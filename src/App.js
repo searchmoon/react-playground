@@ -1,4 +1,3 @@
-import React from 'react';
 import './App.css';
 import { useCallback, useState, useEffect } from 'react';
 import Loading from './components/Loading';
@@ -14,8 +13,13 @@ function App() {
 	}, []);
 
 	console.log('todos', todos);
-
-	return <>{todos ? <TodoList todos={todos} /> : <Loading />}</>;
+	return (
+		<>
+			{/*{todos ? <div>todos</div> : <Loading />}*/}
+			{/* {todos? {todos.map((list) => <div key={list.id}>{list.title}</div>)} : <Loading />} */}
+			{todos ? <TodoList todos={todos} /> : <Loading />}
+		</>
+	);
 }
 
 export default App;
