@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import styled from '@emotion/styled';
 import { Formik, Field } from 'formik';
 import * as Yup from 'yup';
-import CommonInput from './common/CommonInput';
+import CommonInput from './CommonInput';
 
 const initialValues = {
 	account: '',
