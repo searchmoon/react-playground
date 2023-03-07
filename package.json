@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@emotion/react": "11.10.6",
     "@emotion/styled": "11.10.6",
     "@testing-library/jest-dom": "5.16.5",
     "@testing-library/react": "13.4.0",
@@ -12,6 +13,7 @@
     "formik": "2.2.9",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-hook-form": "7.43.3",
     "react-scripts": "5.0.1",
     "web-vitals": "2.1.4",
     "yup": "1.0.2"
@@ -43,6 +45,7 @@
   "devDependencies": {
     "eslint-config-prettier": "8.6.0",
     "eslint-config-standard": "17.0.0",
+    "eslint-plugin-decorator-position": "5.0.2",
     "eslint-plugin-import": "^2.25.2",
     "eslint-plugin-n": "^15.0.0",
     "eslint-plugin-prettier": "4.2.1",
