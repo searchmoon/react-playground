@@ -1,12 +1,15 @@
-import { Timer1 } from "./components/react-docs/escape-hatches/answer/DivideEvent";
+import { Route, Routes } from "react-router-dom";
+
 import Formik from "./components/formik-ex/Formik";
+import Home from "./page/Home";
 
 function App() {
 	return (
-		<>
-			{/* <Formik /> */}
-			<Timer1 />
-		</>
+		<Routes>
+			<Route path="/" element={<Home />} />
+
+			<Route path="/formik" element={<Formik />} />
+		</Routes>
 	);
 }
 
