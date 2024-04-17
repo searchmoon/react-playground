@@ -205,3 +205,305 @@ function Field({ label }) {
     </label>
   );
 }
+
+//문제 3.챌린지 3 of 5: 폼 세부내용을 초기화하기 
+// 여기 수정 가능한 연락처 목록이 있습니다. 연락처 상세 정보를 수정하고 “Save”를 눌러 갱신하거나 “Reset”을 눌러 수정한 것을 되돌릴 수 있습니다.
+// Alice와 같이 다른 연락처를 선택했을 때 state는 갱신되지만, 폼은 여전히 이전 내용을 보여줍니다. 다른 연락처를 선택했을 때 폼이 초기화되도록 수정해보세요.
+import { useState } from 'react';
+import ContactList from './ContactList.js';
+import EditContact from './EditContact.js';
+
+export default function ContactManager() {
+  const [
+    contacts,
+    setContacts
+  ] = useState(initialContacts);
+  const [
+    selectedId,
+    setSelectedId
+  ] = useState(0);
+  const selectedContact = contacts.find(c =>
+    c.id === selectedId
+  );
+
+  function handleSave(updatedData) {
+    const nextContacts = contacts.map(c => {
+      if (c.id === updatedData.id) {
+        return updatedData;
+      } else {
+        return c;
+      }
+    });
+    setContacts(nextContacts);
+  }
+
+  return (
+    <div>
+      <ContactList
+        contacts={contacts}
+        selectedId={selectedId}
+        onSelect={id => setSelectedId(id)}
+      />
+      <hr />
+      <EditContact
+        initialData={selectedContact}
+        onSave={handleSave}
+      />
+    </div>
+  )
+}
+
+const initialContacts = [
+  { id: 0, name: 'Taylor', email: 'taylor@mail.com' },
+  { id: 1, name: 'Alice', email: 'alice@mail.com' },
+  { id: 2, name: 'Bob', email: 'bob@mail.com' }
+];
+
+//정답 3.
+import { useState } from 'react';
+import ContactList from './ContactList.js';
+import EditContact from './EditContact.js';
+
+export default function ContactManager() {
+  const [
+    contacts,
+    setContacts
+  ] = useState(initialContacts);
+  const [
+    selectedId,
+    setSelectedId
+  ] = useState(0);
+  const selectedContact = contacts.find(c =>
+    c.id === selectedId
+  );
+
+  function handleSave(updatedData) {
+    const nextContacts = contacts.map(c => {
+      if (c.id === updatedData.id) {
+        return updatedData;
+      } else {
+        return c;
+      }
+    });
+    setContacts(nextContacts);
+  }
+
+  return (
+    <div>
+      <ContactList
+        contacts={contacts}
+        selectedId={selectedId}
+        onSelect={id => setSelectedId(id)}
+      />
+      <hr />
+      <EditContact
+        key={selectedId}
+        initialData={selectedContact}
+        onSave={handleSave}
+      />
+    </div>
+  )
+}
+
+const initialContacts = [
+  { id: 0, name: 'Taylor', email: 'taylor@mail.com' },
+  { id: 1, name: 'Alice', email: 'alice@mail.com' },
+  { id: 2, name: 'Bob', email: 'bob@mail.com' }
+];
+
+// 문제 4. 챌린지 4 of 5: 이미지가 로딩될 동안 이미지가 안 보이게 하기 
+// “Next”를 누르면 브라우저는 다음 이미지를 불러오기 시작합니다. 하지만 같은 <img> 태그에서 보이기 때문에 기본적으로 다음 이미지를 불러오기 전까지 기존 이미지가 나옵니다. 만약 설명과 이미지가 항상 일치해야 한다면 이것은 바람직하지 않은 동작입니다. “Next”를 누르는 순간 이전 이미지가 안 보이도록 바꾸어보세요.
+
+import { useState } from 'react';
+
+export default function Gallery() {
+  const [index, setIndex] = useState(0);
+  const hasNext = index < images.length - 1;
+
+  function handleClick() {
+    if (hasNext) {
+      setIndex(index + 1);
+    } else {
+      setIndex(0);
+    }
+  }
+
+  let image = images[index];
+  return (
+    <>
+      <button onClick={handleClick}>
+        Next
+      </button>
+      <h3>
+        Image {index + 1} of {images.length}
+      </h3>
+      <img src={image.src} />
+      <p>
+        {image.place}
+      </p>
+    </>
+  );
+}
+
+let images = [{
+  place: 'Penang, Malaysia',
+  src: 'https://i.imgur.com/FJeJR8M.jpg'
+}, {
+  place: 'Lisbon, Portugal',
+  src: 'https://i.imgur.com/dB2LRbj.jpg'
+}, {
+  place: 'Bilbao, Spain',
+  src: 'https://i.imgur.com/z08o2TS.jpg'
+}, {
+  place: 'Valparaíso, Chile',
+  src: 'https://i.imgur.com/Y3utgTi.jpg'
+}, {
+  place: 'Schwyz, Switzerland',
+  src: 'https://i.imgur.com/JBbMpWY.jpg'
+}, {
+  place: 'Prague, Czechia',
+  src: 'https://i.imgur.com/QwUKKmF.jpg'
+}, {
+  place: 'Ljubljana, Slovenia',
+  src: 'https://i.imgur.com/3aIiwfm.jpg'
+}];
+
+//정답 4.
+import { useState } from 'react';
+
+export default function Gallery() {
+  const [index, setIndex] = useState(0);
+  const hasNext = index < images.length - 1;
+
+  function handleClick() {
+    if (hasNext) {
+      setIndex(index + 1);
+    } else {
+      setIndex(0);
+    }
+  }
+
+  let image = images[index];
+  return (
+    <>
+      <button onClick={handleClick}>
+        Next
+      </button>
+      <h3>
+        Image {index + 1} of {images.length}
+      </h3>
+      <img key={image.src} src={image.src} />
+      <p>
+        {image.place}
+      </p>
+    </>
+  );
+}
+
+let images = [{
+  place: 'Penang, Malaysia',
+  src: 'https://i.imgur.com/FJeJR8M.jpg'
+}, {
+  place: 'Lisbon, Portugal',
+  src: 'https://i.imgur.com/dB2LRbj.jpg'
+}, {
+  place: 'Bilbao, Spain',
+  src: 'https://i.imgur.com/z08o2TS.jpg'
+}, {
+  place: 'Valparaíso, Chile',
+  src: 'https://i.imgur.com/Y3utgTi.jpg'
+}, {
+  place: 'Schwyz, Switzerland',
+  src: 'https://i.imgur.com/JBbMpWY.jpg'
+}, {
+  place: 'Prague, Czechia',
+  src: 'https://i.imgur.com/QwUKKmF.jpg'
+}, {
+  place: 'Ljubljana, Slovenia',
+  src: 'https://i.imgur.com/3aIiwfm.jpg'
+}];
+
+//문제 5. 챌린지 5 of 5: 배열에서 잘못 지정된 state 고치기 
+// 다음 예시에서 배열의 각 Contact는 “Show email”이 눌렸는지에 대한 state를 갖고 있습니다. Alice의 “Show email”을 누르고 “Show in reverse order” 체크 박스를 선택해보세요. 아래쪽으로 내려간 Alice의 이메일은 닫혀있고 대신 _Taylor_의 이메일이 열려있는 것을 볼 수 있습니다.
+
+// 순서와 관계없이 확장 state가 각 연락처와 연관되도록 고쳐보세요.
+import { useState } from 'react';
+import Contact from './Contact.js';
+
+export default function ContactList() {
+  const [reverse, setReverse] = useState(false);
+
+  const displayedContacts = [...contacts];
+  if (reverse) {
+    displayedContacts.reverse();
+  }
+
+  return (
+    <>
+      <label>
+        <input
+          type="checkbox"
+          value={reverse}
+          onChange={e => {
+            setReverse(e.target.checked)
+          }}
+        />{' '}
+        Show in reverse order
+      </label>
+      <ul>
+        {displayedContacts.map((contact, i) =>
+          <li key={i}>
+            <Contact contact={contact} />
+          </li>
+        )}
+      </ul>
+    </>
+  );
+}
+
+const contacts = [
+  { id: 0, name: 'Alice', email: 'alice@mail.com' },
+  { id: 1, name: 'Bob', email: 'bob@mail.com' },
+  { id: 2, name: 'Taylor', email: 'taylor@mail.com' }
+];
+
+//정답 5.
+import { useState } from 'react';
+import Contact from './Contact.js';
+
+export default function ContactList() {
+  const [reverse, setReverse] = useState(false);
+
+  const displayedContacts = [...contacts];
+  if (reverse) {
+    displayedContacts.reverse();
+  }
+
+  return (
+    <>
+      <label>
+        <input
+          type="checkbox"
+          value={reverse}
+          onChange={e => {
+            setReverse(e.target.checked)
+          }}
+        />{' '}
+        Show in reverse order
+      </label>
+      <ul>
+        {displayedContacts.map(contact =>
+          <li key={contact.id}>
+            <Contact contact={contact} />
+          </li>
+        )}
+      </ul>
+    </>
+  );
+}
+
+const contacts = [
+  { id: 0, name: 'Alice', email: 'alice@mail.com' },
+  { id: 1, name: 'Bob', email: 'bob@mail.com' },
+  { id: 2, name: 'Taylor', email: 'taylor@mail.com' }
+];
